@@ -22,6 +22,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.9",
         "symfony/debug-bundle": "6.1.*",
         "symfony/maker-bundle": "^1.44",
         "symfony/monolog-bundle": "^3.0",
@@ -70,6 +71,10 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "fix": "php-cs-fixer fix",
+        "check": [
+            "php-cs-fixer fix --dry-run --diff"
         ]
     },
     "conflict": {
