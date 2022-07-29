@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  app:
+    image: drakona/php:8.1-symfony
+    depends_on:
+      - db
+    volumes:
+      - .:/srv
+
+  nginx:
+    image: drakona/nginx:8-symfony
+    depends_on:
+      - app
+    volumes:
+      - .:/srv
+    ports:
+      - "8000:80"
+
+  db:
+    image: mariadb:10
+    environment:
+      MARIADB_ROOT_PASSWORD: pass
+      MARIADB_DATABASE: api
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  mailhog:
+    image: mailhog/mailhog
+    logging:
+      driver: 'none'
+    ports:
+      - '8025:8025'
+      - '1025:1025'
+
+volumes:
+  db-data: {}
