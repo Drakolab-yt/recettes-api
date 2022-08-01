@@ -38,8 +38,19 @@ restart: stop start.daemon ## Arrête et redémarre les conteneurs
 # ===================== #
 # Mise à jour du projet #
 # ===================== #
-update:
+update: composer.install migrate ## Met à jour le projet
+
+composer.install:
 	$(EXEC) composer install
+
+entity: ## Génère ou modifie une entité
+	$(EXEC) $(CONSOLE) make:entity
+
+migration: ## Crée une migration à partir des entités et de leurs modifications
+	$(EXEC) $(CONSOLE) make:migration
+
+migrate: ## Applique les migrations
+	$(EXEC) $(CONSOLE) doctrine:migrations:migrate -n
 
 
 # ============= #
