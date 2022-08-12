@@ -19,7 +19,7 @@ CONSOLE=php bin/console
 # Définit une tâche par défaut (quand on appelle make sans sous-commande)
 .DEFAULT_GOAL := help
 
-.PHONY: start start.daemon stop restart update check csfix help
+.PHONY: start start.daemon stop restart update check csfix help upgrade entity migration migrate db.restart db.drop db.create
 
 # =========================== #
 # Manipulation des conteneurs #
@@ -47,6 +47,22 @@ upgrade: ## Met à jour le projet avec les informations de composer.json (met à
 # ================================== #
 # Manipulation de la base de données #
 # ================================== #
+entity: ## Crée ou modifie une entité
+	$(EXEC) $(CONSOLE) make:entity
+
+migration: ## Génère une migration avec les changements des entités
+	$(EXEC) $(CONSOLE) make:migration
+
+migrate: ## Exécute les migrations
+	$(EXEC) $(CONSOLE) doctrine:migrations:migrate -n
+
+db.recreate: db.drop db.create migrate
+
+db.drop:
+	$(EXEC) $(CONSOLE) doctrine:database:drop -f
+
+db.create:
+	$(EXEC) $(CONSOLE) doctrine:database:create
 
 # ============= #
 # Vérifications #
