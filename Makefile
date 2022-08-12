@@ -38,9 +38,15 @@ restart: stop start.daemon ## Arrête et redémarre les conteneurs
 # ===================== #
 # Mise à jour du projet #
 # ===================== #
-update:
+update: ## Met à jour le projet avec les informations de composer.lock (ne les met pas à jour)
 	$(EXEC) composer install
 
+upgrade: ## Met à jour le projet avec les informations de composer.json (met à jour le composer.lock)
+	$(EXEC) composer update
+
+# ================================== #
+# Manipulation de la base de données #
+# ================================== #
 
 # ============= #
 # Vérifications #
