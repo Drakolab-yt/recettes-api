@@ -22,12 +22,12 @@ class Source
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $url = null;
 
-    #[ORM\ManyToMany(targetEntity: Recipe::class, inversedBy: 'sources')]
-    private Collection $recipes;
+    #[ORM\OneToMany(mappedBy: 'source', targetEntity: RecipeHasSource::class, orphanRemoval: true)]
+    private Collection $recipeHasSources;
 
     public function __construct()
     {
-        $this->recipes = new ArrayCollection();
+        $this->recipeHasSources = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -48,25 +48,31 @@ class Source
     }
 
     /**
-     * @return Collection<int, Recipe>
+     * @return Collection<int, RecipeHasSource>
      */
-    public function getRecipes(): Collection
+    public function getRecipeHasSources(): Collection
     {
-        return $this->recipes;
+        return $this->recipeHasSources;
     }
 
-    public function addRecipe(Recipe $recipe): self
+    public function addRecipeHasSource(RecipeHasSource $recipeHasSource): self
     {
-        if (!$this->recipes->contains($recipe)) {
-            $this->recipes[] = $recipe;
+        if (!$this->recipeHasSources->contains($recipeHasSource)) {
+            $this->recipeHasSources[] = $recipeHasSource;
+            $recipeHasSource->setSource($this);
         }
 
         return $this;
     }
 
-    public function removeRecipe(Recipe $recipe): self
+    public function removeRecipeHasSource(RecipeHasSource $recipeHasSource): self
     {
-        $this->recipes->removeElement($recipe);
+        if ($this->recipeHasSources->removeElement($recipeHasSource)) {
+            // set the owning side to null (unless already changed)
+            if ($recipeHasSource->getSource() === $this) {
+                $recipeHasSource->setSource(null);
+            }
+        }
 
         return $this;
     }

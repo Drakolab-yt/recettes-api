@@ -47,18 +47,18 @@ class Recipe
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private Collection $images;
 
-    #[ORM\ManyToMany(targetEntity: Source::class, mappedBy: 'recipes', cascade: ['persist'])]
-    private Collection $sources;
-
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeHasIngredient::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $recipeHasIngredients;
+
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeHasSource::class, orphanRemoval: true)]
+    private Collection $recipeHasSources;
 
     public function __construct()
     {
         $this->steps = new ArrayCollection();
         $this->images = new ArrayCollection();
-        $this->sources = new ArrayCollection();
         $this->recipeHasIngredients = new ArrayCollection();
+        $this->recipeHasSources = new ArrayCollection();
     }
 
     public function isDraft(): ?bool
@@ -170,33 +170,6 @@ class Recipe
     }
 
     /**
-     * @return Collection<int, Source>
-     */
-    public function getSources(): Collection
-    {
-        return $this->sources;
-    }
-
-    public function addSource(Source $source): self
-    {
-        if (!$this->sources->contains($source)) {
-            $this->sources[] = $source;
-            $source->addRecipe($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSource(Source $source): self
-    {
-        if ($this->sources->removeElement($source)) {
-            $source->removeRecipe($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, RecipeHasIngredient>
      */
     public function getRecipeHasIngredients(): Collection
@@ -220,6 +193,36 @@ class Recipe
             // set the owning side to null (unless already changed)
             if ($recipeHasIngredient->getRecipe() === $this) {
                 $recipeHasIngredient->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecipeHasSource>
+     */
+    public function getRecipeHasSources(): Collection
+    {
+        return $this->recipeHasSources;
+    }
+
+    public function addRecipeHasSource(RecipeHasSource $recipeHasSource): self
+    {
+        if (!$this->recipeHasSources->contains($recipeHasSource)) {
+            $this->recipeHasSources[] = $recipeHasSource;
+            $recipeHasSource->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeHasSource(RecipeHasSource $recipeHasSource): self
+    {
+        if ($this->recipeHasSources->removeElement($recipeHasSource)) {
+            // set the owning side to null (unless already changed)
+            if ($recipeHasSource->getRecipe() === $this) {
+                $recipeHasSource->setRecipe(null);
             }
         }
 
