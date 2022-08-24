@@ -23,25 +23,34 @@ class Recipe
     #[ORM\Column]
     private ?bool $draft = true;
 
+    /**
+     * Temps de cuisson
+     */
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $cooking = null;
 
+    /**
+     * Temps de repos
+     */
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $break = null;
 
+    /**
+     * Temps de préparation
+     */
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $preparation = null;
 
-    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Step::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Step::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $steps;
 
-    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Image::class)]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private Collection $images;
 
-    #[ORM\ManyToMany(targetEntity: Source::class, mappedBy: 'recipes')]
+    #[ORM\ManyToMany(targetEntity: Source::class, mappedBy: 'recipes', cascade: ['persist'])]
     private Collection $sources;
 
-    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeHasIngredient::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeHasIngredient::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $recipeHasIngredients;
 
     public function __construct()

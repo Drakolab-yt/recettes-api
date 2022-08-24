@@ -31,6 +31,7 @@ class RecipeHasIngredient
     private ?IngredientGroup $ingredientGroup = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipeHasIngredients')]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?Unit $unit = null;
 
     public function getId(): ?int
