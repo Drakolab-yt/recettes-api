@@ -56,7 +56,10 @@ migration: ## Génère une migration avec les changements des entités
 migrate: ## Exécute les migrations
 	$(EXEC) $(CONSOLE) doctrine:migrations:migrate -n
 
-db.recreate: db.drop db.create migrate
+migrations.list: ## Liste les migrations
+	$(EXEC) $(CONSOLE) doctrine:migrations:list
+
+db.recreate: db.drop db.create migrate ## Commande (d'urgence) pour recréer la BdD depuis 0
 
 db.drop:
 	$(EXEC) $(CONSOLE) doctrine:database:drop -f
