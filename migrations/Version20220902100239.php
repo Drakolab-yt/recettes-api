@@ -14,7 +14,7 @@ final class Version20220902100239 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return '6 - Ajout de la relation entre Tag et Recipe (ManyToMany)';
     }
 
     public function up(Schema $schema): void
