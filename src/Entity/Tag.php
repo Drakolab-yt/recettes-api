@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\HasDescriptionTrait;
 use App\Entity\Traits\HasIdTrait;
 use App\Entity\Traits\HasNameTrait;
@@ -11,6 +12,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
+#[ApiResource(
+    itemOperations: ['get', 'delete', 'patch'],
+)]
 class Tag
 {
     use HasIdTrait;
@@ -27,9 +31,13 @@ class Tag
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
     private Collection $children;
 
+    #[ORM\ManyToMany(targetEntity: Recipe::class, inversedBy: 'tags')]
+    private Collection $recipes;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     public function isMenu(): ?bool
@@ -82,6 +90,30 @@ class Tag
                 $child->setParent(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Recipe>
+     */
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(Recipe $recipe): self
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes[] = $recipe;
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): self
+    {
+        $this->recipes->removeElement($recipe);
 
         return $this;
     }
