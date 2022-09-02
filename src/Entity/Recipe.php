@@ -2,56 +2,82 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\HasDescriptionTrait;
 use App\Entity\Traits\HasIdTrait;
 use App\Entity\Traits\HasNameTrait;
+use App\Entity\Traits\HasTimestampTrait;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
+#[ApiResource(
+    itemOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['get', 'Recipe:item:get'],
+            ],
+        ],
+        'delete',
+        'patch'
+    ],
+    normalizationContext: ['groups' => ['get']]
+)]
 class Recipe
 {
     use HasIdTrait;
     use HasNameTrait;
     use HasDescriptionTrait;
-    use TimestampableEntity;
+    use HasTimestampTrait;
 
     #[ORM\Column]
+    #[Groups(['get'])]
     private ?bool $draft = true;
 
     /**
      * Temps de cuisson
      */
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    #[Groups(['get'])]
     private ?int $cooking = null;
 
     /**
      * Temps de repos
      */
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    #[Groups(['get'])]
     private ?int $break = null;
 
     /**
      * Temps de préparation
      */
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    #[Groups(['get'])]
     private ?int $preparation = null;
 
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Step::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[Groups(['get'])]
     private Collection $steps;
 
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    #[Groups(['get'])]
     private Collection $images;
 
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeHasIngredient::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[Groups(['get'])]
     private Collection $recipeHasIngredients;
 
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeHasSource::class, orphanRemoval: true)]
+    #[Groups(['get'])]
     private Collection $recipeHasSources;
+
+    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'recipes')]
+    #[Groups(['get'])]
+    private Collection $tags;
 
     public function __construct()
     {
@@ -59,6 +85,7 @@ class Recipe
         $this->images = new ArrayCollection();
         $this->recipeHasIngredients = new ArrayCollection();
         $this->recipeHasSources = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function isDraft(): ?bool
@@ -224,6 +251,33 @@ class Recipe
             if ($recipeHasSource->getRecipe() === $this) {
                 $recipeHasSource->setRecipe(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->addRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->removeElement($tag)) {
+            $tag->removeRecipe($this);
         }
 
         return $this;

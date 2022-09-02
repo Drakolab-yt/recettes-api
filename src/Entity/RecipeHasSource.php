@@ -2,33 +2,35 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Traits\HasIdTrait;
 use App\Repository\RecipeHasSourceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RecipeHasSourceRepository::class)]
+#[ApiResource(
+    itemOperations: ['get', 'delete', 'patch'],
+    normalizationContext: ['groups' => ['get']]
+)]
 class RecipeHasSource
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column()]
-    private ?int $id = null;
+    use HasIdTrait;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['get'])]
     private ?string $url = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipeHasSources')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['get'])]
     private ?Recipe $recipe = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipeHasSources')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['get'])]
     private ?Source $source = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getUrl(): ?string
     {
