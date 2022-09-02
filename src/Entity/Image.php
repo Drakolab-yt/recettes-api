@@ -9,10 +9,12 @@ use App\Entity\Traits\HasPriorityTrait;
 use App\Entity\Traits\HasTimestampTrait;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ApiResource(
     itemOperations: ['get', 'delete'],
+    normalizationContext: ['groups' => ['get']]
 )]
 class Image
 {
@@ -22,9 +24,11 @@ class Image
     use HasTimestampTrait;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['get'])]
     private ?string $path = null;
 
     #[ORM\Column]
+    #[Groups(['get'])]
     private ?float $size = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]

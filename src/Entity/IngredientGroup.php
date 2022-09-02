@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: IngredientGroupRepository::class)]
 #[ApiResource(
     itemOperations: ['get', 'delete', 'patch'],
+    normalizationContext: ['groups' => ['get']]
 )]
 class IngredientGroup
 {

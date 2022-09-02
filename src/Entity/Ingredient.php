@@ -11,10 +11,12 @@ use App\Repository\IngredientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
 #[ApiResource(
     itemOperations: ['get', 'patch', 'delete'],
+    normalizationContext: ['groups' => ['get']]
 )]
 class Ingredient
 {
@@ -24,15 +26,19 @@ class Ingredient
     use HasTimestampTrait;
 
     #[ORM\Column]
+    #[Groups(['get'])]
     private ?bool $vegan = false;
 
     #[ORM\Column]
+    #[Groups(['get'])]
     private ?bool $vegetarian = true;
 
     #[ORM\Column]
+    #[Groups(['get'])]
     private ?bool $dairyFree = false;
 
     #[ORM\Column]
+    #[Groups(['get'])]
     private ?bool $glutenFree = false;
 
     #[ORM\OneToMany(mappedBy: 'ingredient', targetEntity: RecipeHasIngredient::class, orphanRemoval: true)]

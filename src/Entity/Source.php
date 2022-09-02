@@ -11,10 +11,12 @@ use App\Repository\SourceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SourceRepository::class)]
 #[ApiResource(
     itemOperations: ['get', 'delete', 'patch'],
+    normalizationContext: ['groups' => ['get']]
 )]
 class Source
 {
@@ -24,6 +26,7 @@ class Source
     use HasTimestampTrait;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['get'])]
     private ?string $url = null;
 
     #[ORM\OneToMany(mappedBy: 'source', targetEntity: RecipeHasSource::class, orphanRemoval: true)]
@@ -32,11 +35,6 @@ class Source
     public function __construct()
     {
         $this->recipeHasSources = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getUrl(): ?string

@@ -11,10 +11,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: StepRepository::class)]
 #[ApiResource(
     itemOperations: ['get', 'delete', 'patch'],
+    normalizationContext: ['groups' => ['get']]
 )]
 class Step
 {
@@ -23,6 +25,7 @@ class Step
     use HasTimestampTrait;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['get'])]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'steps')]
@@ -30,6 +33,7 @@ class Step
     private ?Recipe $recipe = null;
 
     #[ORM\OneToMany(mappedBy: 'step', targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    #[Groups(['get'])]
     private Collection $images;
 
     public function __construct()

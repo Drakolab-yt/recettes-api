@@ -8,19 +8,23 @@ use App\Repository\UnitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UnitRepository::class)]
 #[ApiResource(
     itemOperations: ['get', 'delete', 'patch'],
+    normalizationContext: ['groups' => ['get']]
 )]
 class Unit
 {
     use HasIdTrait;
 
     #[ORM\Column(length: 64)]
+    #[Groups(['get'])]
     private ?string $singular = null;
 
     #[ORM\Column(length: 64)]
+    #[Groups(['get'])]
     private ?string $plural = null;
 
     #[ORM\OneToMany(mappedBy: 'unit', targetEntity: RecipeHasIngredient::class)]

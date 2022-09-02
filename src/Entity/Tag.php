@@ -10,10 +10,12 @@ use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ApiResource(
     itemOperations: ['get', 'delete', 'patch'],
+    normalizationContext: ['groups' => ['get']]
 )]
 class Tag
 {
@@ -22,13 +24,16 @@ class Tag
     use HasDescriptionTrait;
 
     #[ORM\Column]
+    #[Groups(['get'])]
     private ?bool $menu = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
+    #[Groups(['get'])]
     private ?self $parent = null;
 
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
+    #[Groups(['get'])]
     private Collection $children;
 
     #[ORM\ManyToMany(targetEntity: Recipe::class, inversedBy: 'tags')]
