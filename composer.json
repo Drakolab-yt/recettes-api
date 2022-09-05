@@ -32,7 +32,8 @@
         "symfony/validator": "6.1.*",
         "symfony/yaml": "6.1.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "vich/uploader-bundle": "^1.21"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.9",
