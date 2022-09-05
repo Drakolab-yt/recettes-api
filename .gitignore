@@ -17,6 +17,6 @@
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 
-# Dossiers d'images
+# Images
 public/images/*
 !public/images/.gitignore

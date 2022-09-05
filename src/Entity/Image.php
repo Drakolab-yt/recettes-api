@@ -10,8 +10,9 @@ use App\Entity\Traits\HasTimestampTrait;
 use App\Repository\ImageRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
@@ -26,17 +27,13 @@ class Image
     use HasPriorityTrait;
     use HasTimestampTrait;
 
-    // NOTE: This is not a mapped field of entity metadata, just a simple property.
-    #[Vich\UploadableField(mapping: 'images', fileNameProperty: 'path', size: 'size')]
-    private ?File $file = null;
-
     #[ORM\Column(length: 255)]
     #[Groups(['get'])]
     private ?string $path = null;
 
     #[ORM\Column]
     #[Groups(['get'])]
-    private ?float $size = null;
+    private ?int $size = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Recipe $recipe = null;
@@ -44,35 +41,9 @@ class Image
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Step $step = null;
 
-    /**
-     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-     * of 'UploadedFile' is injected into this setter to trigger the update. If this
-     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-     * must be able to accept an instance of 'File' as the bundle will inject one here
-     * during Doctrine hydration.
-     *
-     * @param \Symfony\Component\HttpFoundation\File\File|null $file
-     *
-     * @return \App\Entity\Image
-     */
-    public function setFile(?File $file = null): self
-    {
-        $this->file = $file;
-
-        if (null !== $file) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new DateTime();
-        }
-
-        return $this;
-    }
-
-    public function getFile(): ?File
-    {
-        return $this->file;
-    }
-
+    // NOTE: This is not a mapped field of entity metadata, just a simple property.
+    #[Vich\UploadableField(mapping: 'images', fileNameProperty: 'path', size: 'size')]
+    private ?File $file = null;
 
     public function getPath(): ?string
     {
@@ -118,6 +89,29 @@ class Image
     public function setStep(?Step $step): self
     {
         $this->step = $step;
+
+        return $this;
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     */
+    public function setFile(File|UploadedFile|null $file): Image
+    {
+        $this->file = $file;
+
+        if (null !== $file) {
+            $this->setUpdatedAt(new DateTime());
+        }
 
         return $this;
     }
