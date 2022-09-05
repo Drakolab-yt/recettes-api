@@ -29,6 +29,9 @@ class Source
     #[Groups(['get'])]
     private ?string $url = null;
 
+    /**
+     * @var Collection<int, RecipeHasSource>
+     */
     #[ORM\OneToMany(mappedBy: 'source', targetEntity: RecipeHasSource::class, orphanRemoval: true)]
     private Collection $recipeHasSources;
 

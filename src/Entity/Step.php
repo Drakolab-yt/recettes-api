@@ -32,6 +32,9 @@ class Step
     #[ORM\JoinColumn(nullable: false)]
     private ?Recipe $recipe = null;
 
+    /**
+     * @var Collection<int, Image>
+     */
     #[ORM\OneToMany(mappedBy: 'step', targetEntity: Image::class, cascade: ['persist', 'remove'])]
     #[Groups(['get'])]
     private Collection $images;

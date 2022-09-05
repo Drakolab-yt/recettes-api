@@ -2,17 +2,19 @@
 
 namespace App\Namer;
 
+use App\Entity\Image;
 use Exception;
 use Vich\UploaderBundle\Mapping\PropertyMapping;
 use Vich\UploaderBundle\Naming\DirectoryNamerInterface;
 
+/**
+ * @implements DirectoryNamerInterface<Image>
+ */
 class ImageDirectoryNamer implements DirectoryNamerInterface
 {
     /**
-     * @param \App\Entity\Image                            $object
-     * @param \Vich\UploaderBundle\Mapping\PropertyMapping $mapping
+     * @param Image $object
      *
-     * @return string
      * @throws \Exception
      */
     public function directoryName($object, PropertyMapping $mapping): string
@@ -31,9 +33,9 @@ class ImageDirectoryNamer implements DirectoryNamerInterface
         $directoryName = $recipe->getSlug();
 
         if (!is_null($step)) {
-            $directoryName .= '/' . $step->getId();
+            $directoryName .= '/'.$step->getId();
         }
 
-        return $directoryName;
+        return (string) $directoryName;
     }
 }

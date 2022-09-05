@@ -27,6 +27,9 @@ class Unit
     #[Groups(['get'])]
     private ?string $plural = null;
 
+    /**
+     * @var Collection<int, RecipeHasIngredient>
+     */
     #[ORM\OneToMany(mappedBy: 'unit', targetEntity: RecipeHasIngredient::class)]
     private Collection $recipeHasIngredients;
 

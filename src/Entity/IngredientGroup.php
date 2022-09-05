@@ -22,6 +22,9 @@ class IngredientGroup
     use HasNameTrait;
     use HasPriorityTrait;
 
+    /**
+     * @var Collection<int, RecipeHasIngredient>
+     */
     #[ORM\OneToMany(mappedBy: 'ingredientGroup', targetEntity: RecipeHasIngredient::class)]
     private Collection $recipeHasIngredients;
 

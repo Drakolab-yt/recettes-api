@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ],
         ],
         'delete',
-        'patch'
+        'patch',
     ],
     normalizationContext: ['groups' => ['get']]
 )]
@@ -39,42 +39,57 @@ class Recipe
     private ?bool $draft = true;
 
     /**
-     * Temps de cuisson
+     * Temps de cuisson.
      */
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     #[Groups(['get'])]
     private ?int $cooking = null;
 
     /**
-     * Temps de repos
+     * Temps de repos.
      */
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     #[Groups(['get'])]
     private ?int $break = null;
 
     /**
-     * Temps de préparation
+     * Temps de préparation.
      */
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     #[Groups(['get'])]
     private ?int $preparation = null;
 
+    /**
+     * @var Collection<int, Step>
+     */
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Step::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Groups(['get'])]
     private Collection $steps;
 
+    /**
+     * @var Collection<int, Image>
+     */
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Image::class, cascade: ['persist', 'remove'])]
     #[Groups(['get'])]
     private Collection $images;
 
+    /**
+     * @var Collection<int, RecipeHasIngredient>
+     */
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeHasIngredient::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Groups(['get'])]
     private Collection $recipeHasIngredients;
 
+    /**
+     * @var Collection<int, RecipeHasSource>
+     */
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeHasSource::class, orphanRemoval: true)]
     #[Groups(['get'])]
     private Collection $recipeHasSources;
 
+    /**
+     * @var Collection<int, Tag>
+     */
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'recipes')]
     #[Groups(['get'])]
     private Collection $tags;

@@ -10,9 +10,9 @@ use App\Entity\Traits\HasTimestampTrait;
 use App\Repository\ImageRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
@@ -57,12 +57,12 @@ class Image
         return $this;
     }
 
-    public function getSize(): ?float
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
-    public function setSize(float $size): self
+    public function setSize(int $size): self
     {
         $this->size = $size;
 
