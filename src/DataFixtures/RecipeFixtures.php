@@ -3,19 +3,21 @@
 namespace App\DataFixtures;
 
 use App\Entity\Recipe;
+use App\Repository\StepRepository;
 use App\Repository\TagRepository;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
 
-class RecipeFixtures extends Fixture implements DependentFixtureInterface
+class RecipeFixtures extends AbstractFixtures implements DependentFixtureInterface
 {
     protected Faker\Generator $faker;
 
-    public function __construct(protected TagRepository $tagRepository)
-    {
-        $this->faker = Faker\Factory::create('fr_FR');
+    public function __construct(
+        protected TagRepository $tagRepository,
+        protected StepRepository $stepRepository
+    ) {
+        parent::__construct();
     }
 
     public function load(ObjectManager $manager): void
