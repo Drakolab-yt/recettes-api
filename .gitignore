@@ -5,7 +5,7 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/var/
+/var/*
 /vendor/
 ###< symfony/framework-bundle ###
 
@@ -20,3 +20,4 @@
 # Images
 public/images/*
 !public/images/.gitignore
+!/var/images
