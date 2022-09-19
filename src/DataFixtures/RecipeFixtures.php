@@ -23,7 +23,7 @@ class RecipeFixtures extends AbstractFixtures implements DependentFixtureInterfa
     public function load(ObjectManager $manager): void
     {
         $tags = $this->tagRepository->findAll();
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 50; ++$i) {
             $recipe = new Recipe();
             $recipe
                 ->setName($this->faker->name())

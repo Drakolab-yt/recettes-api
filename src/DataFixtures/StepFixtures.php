@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Recipe;
 use App\Entity\Step;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -17,12 +18,14 @@ class StepFixtures extends AbstractFixtures implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $recipes = $this->recipeRepository->findAll();
-        for ($i = 0; $i < 250; $i++) {
+        for ($i = 0; $i < 250; ++$i) {
+            /** @var Recipe $recipe */
+            $recipe = $this->faker->randomElement($recipes);
             $step = new Step();
             $step
                 ->setContent($this->faker->realText())
                 ->setPriority($this->faker->randomDigitNotZero())
-                ->setRecipe($this->faker->randomElement($recipes))
+                ->setRecipe($recipe)
             ;
             $manager->persist($step);
         }

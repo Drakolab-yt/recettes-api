@@ -28,11 +28,10 @@ class ImageFixtures extends AbstractFixtures implements DependentFixtureInterfac
         $filesystem = new Filesystem();
 
         foreach ($recipes as $recipe) {
-            for ($i = 0; $i < $this->faker->numberBetween(0, 4); $i++) {
+            for ($i = 0; $i < $this->faker->numberBetween(0, 4); ++$i) {
                 $imgFile = $this->createImage();
 
                 $fileDest = $destination.$recipe->getSlug();
-//                $imgFile->move($fileDest);
                 $filesystem->copy($imgFile->getRealPath(), $fileDest.'/'.$imgFile->getFilename());
 
                 $image = new Image();
@@ -44,7 +43,10 @@ class ImageFixtures extends AbstractFixtures implements DependentFixtureInterfac
             }
         }
         foreach ($steps as $step) {
-            for ($i = 0; $i < $this->faker->numberBetween(0, 4); $i++) {
+            for ($i = 0; $i < $this->faker->numberBetween(0, 4); ++$i) {
+                if (is_null($step->getRecipe())) {
+                    continue;
+                }
                 $imgFile = $this->createImage();
                 $fileDest = $destination.$step->getRecipe()->getSlug().'/'.$step->getId();
                 $filesystem->copy($imgFile->getRealPath(), $fileDest.'/'.$imgFile->getFilename());
@@ -66,7 +68,8 @@ class ImageFixtures extends AbstractFixtures implements DependentFixtureInterfac
         $number = $this->faker->numberBetween(1, 16);
         $folder = __DIR__.'/../../var/images/fixtures/';
         $imgName = 'image'.$number.'.jpg';
-        $src = realpath($folder.$imgName);
+        $src = $folder.$imgName;
+
         return new UploadedFile(
             path: $src,
             originalName: $imgName,

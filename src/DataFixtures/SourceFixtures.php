@@ -9,7 +9,7 @@ class SourceFixtures extends AbstractFixtures
 {
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 75; $i++) {
+        for ($i = 0; $i < 75; ++$i) {
             $source = new Source();
             $source
                 ->setName($this->faker->name())
