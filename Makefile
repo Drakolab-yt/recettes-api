@@ -59,13 +59,16 @@ migrate: ## Exécute les migrations
 migrations.list: ## Liste les migrations
 	$(EXEC) $(CONSOLE) doctrine:migrations:list
 
-db.recreate: db.drop db.create migrate ## Commande (d'urgence) pour recréer la BdD depuis 0
+db.recreate: db.drop db.create migrate fixtures ## Commande (d'urgence) pour recréer la BdD depuis 0
 
 db.drop:
 	$(EXEC) $(CONSOLE) doctrine:database:drop -f
 
 db.create:
 	$(EXEC) $(CONSOLE) doctrine:database:create
+
+fixtures: ## Charger les fixtures (Attention, vide la BdD !)
+	$(EXEC) $(CONSOLE) doctrine:fixtures:load -n
 
 # ============= #
 # Vérifications #
