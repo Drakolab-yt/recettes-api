@@ -70,6 +70,9 @@ db.create:
 fixtures: ## Charger les fixtures (Attention, vide la BdD !)
 	$(EXEC) $(CONSOLE) doctrine:fixtures:load -n
 
+admin.crud:
+	$(EXEC) $(CONSOLE) make:admin:crud
+
 # ============= #
 # Vérifications #
 # ============= #
