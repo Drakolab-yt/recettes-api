@@ -18,8 +18,8 @@ class StepType extends AbstractType
             ->add(child: 'content', type: TextareaType::class)
             ->add(child: 'priority', type: IntegerType::class)
             ->add(child: 'images', type: CollectionType::class, options: [
-                'entry_type'   => ImageType::class,
-                'allow_add'    => true,
+                'entry_type' => ImageType::class,
+                'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
             ])

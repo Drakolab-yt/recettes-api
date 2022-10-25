@@ -31,8 +31,7 @@ class RecipeCrudController extends AbstractCrudController
             IdField::new(propertyName: 'id')
                 // Par contre, on ne le veut pas dans les formulaires,
                 // car c'est une donnée gérée par Doctrine
-                ->hideOnForm()
-            ,
+                ->hideOnForm(),
             TextField::new(propertyName: 'name'),
             // Pour le champ description, on utilise un TextEditorField,
             // qui permet la mise en forme du texte avec du HTML (à ne pas oublier pour l'affichage ;) )
@@ -76,8 +75,7 @@ class RecipeCrudController extends AbstractCrudController
                 // Sans cela, les suppressions de liens avec des tags sont juste ignorés.
                 ->setFormTypeOptions([
                     'by_reference' => false,
-                ])
-            ,
+                ]),
         ];
     }
 }

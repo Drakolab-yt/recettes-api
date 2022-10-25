@@ -119,6 +119,6 @@ class Image
 
     public function __toString(): string
     {
-        return $this->getPath();
+        return (string) $this->getPath();
     }
 }

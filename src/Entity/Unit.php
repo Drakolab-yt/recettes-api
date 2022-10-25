@@ -94,6 +94,6 @@ class Unit
 
     public function __toString(): string
     {
-        return $this->getSingular() . ' / ' . $this->getPlural();
+        return $this->getSingular().' / '.$this->getPlural();
     }
 }

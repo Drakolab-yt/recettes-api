@@ -50,9 +50,6 @@ upgrade: ## Met à jour le projet avec les informations de composer.json (met à
 entity: ## Crée ou modifie une entité
 	$(EXEC) $(CONSOLE) make:entity
 
-form: ## Crée ou modifie une entité
-	$(EXEC) $(CONSOLE) make:form
-
 migration: ## Génère une migration avec les changements des entités
 	$(EXEC) $(CONSOLE) make:migration
 
@@ -73,7 +70,14 @@ db.create:
 fixtures: ## Charger les fixtures (Attention, vide la BdD !)
 	$(EXEC) $(CONSOLE) doctrine:fixtures:load -n
 
-admin.crud:
+# ========================= #
+# Génération de formulaires #
+# ========================= #
+
+form: ## Crée un formulaire Symfony
+	$(EXEC) $(CONSOLE) make:form
+
+admin.crud: ## Crée un CRUD pour l'admin (EasyAdmin)
 	$(EXEC) $(CONSOLE) make:admin:crud
 
 # ============= #

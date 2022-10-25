@@ -63,7 +63,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Ingrédients', 'fa fa-carrot', Ingredient::class);
         yield MenuItem::linkToCrud('Tags', 'fa fa-tags', Tag::class);
 
-
         yield MenuItem::section('Sous-données');
 
         yield MenuItem::linkToCrud('Groupes d\'ingrédients', 'fa fa-cubes-stacked', IngredientGroup::class);
