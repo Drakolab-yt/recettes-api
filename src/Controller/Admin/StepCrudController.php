@@ -21,11 +21,11 @@ class StepCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
-            IntegerField::new('priority'),
-            TextEditorField::new('content'),
-            AssociationField::new('recipe'),
-            AssociationField::new('images'),
+            IdField::new(propertyName: 'id')->hideOnForm(),
+            IntegerField::new(propertyName: 'priority'),
+            TextEditorField::new(propertyName: 'content'),
+            AssociationField::new(propertyName: 'recipe'),
+            AssociationField::new(propertyName: 'images'),
         ];
     }
 }

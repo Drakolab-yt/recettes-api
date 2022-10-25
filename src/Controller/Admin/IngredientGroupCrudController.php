@@ -19,9 +19,9 @@ class IngredientGroupCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
-            TextField::new('name'),
-            IntegerField::new('priority'),
+            IdField::new(propertyName: 'id')->hideOnForm(),
+            TextField::new(propertyName: 'name'),
+            IntegerField::new(propertyName: 'priority'),
         ];
     }
 }

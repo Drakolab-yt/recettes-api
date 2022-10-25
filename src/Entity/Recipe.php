@@ -83,7 +83,7 @@ class Recipe
     /**
      * @var Collection<int, RecipeHasSource>
      */
-    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeHasSource::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeHasSource::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Groups(['get'])]
     private Collection $recipeHasSources;
 

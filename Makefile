@@ -50,6 +50,9 @@ upgrade: ## Met à jour le projet avec les informations de composer.json (met à
 entity: ## Crée ou modifie une entité
 	$(EXEC) $(CONSOLE) make:entity
 
+form: ## Crée ou modifie une entité
+	$(EXEC) $(CONSOLE) make:form
+
 migration: ## Génère une migration avec les changements des entités
 	$(EXEC) $(CONSOLE) make:migration
 

@@ -19,10 +19,10 @@ class SourceCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
-            TextField::new('name'),
-            UrlField::new('url'),
-            TextEditorField::new('description'),
+            IdField::new(propertyName: 'id')->hideOnForm(),
+            TextField::new(propertyName: 'name'),
+            UrlField::new(propertyName: 'url'),
+            TextEditorField::new(propertyName: 'description'),
         ];
     }
 }

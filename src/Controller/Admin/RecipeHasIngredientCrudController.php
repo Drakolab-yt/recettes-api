@@ -19,13 +19,13 @@ class RecipeHasIngredientCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
-            BooleanField::new('optional'),
-            AssociationField::new('recipe'),
-            AssociationField::new('ingredient'),
-            NumberField::new('quantity'),
-            AssociationField::new('unit'),
-            AssociationField::new('ingredientGroup'),
+            IdField::new(propertyName: 'id')->hideOnForm(),
+            BooleanField::new(propertyName: 'optional'),
+            AssociationField::new(propertyName: 'recipe'),
+            AssociationField::new(propertyName: 'ingredient'),
+            NumberField::new(propertyName: 'quantity'),
+            AssociationField::new(propertyName: 'unit'),
+            AssociationField::new(propertyName: 'ingredientGroup'),
         ];
     }
 }

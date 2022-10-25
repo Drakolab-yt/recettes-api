@@ -25,8 +25,6 @@ class TagCrudController extends AbstractCrudController
             TextField::new(propertyName: 'name'),
             TextEditorField::new(propertyName: 'description'),
             AssociationField::new(propertyName: 'parent'),
-//            'children',
-//            'recipes',
         ];
     }
 }

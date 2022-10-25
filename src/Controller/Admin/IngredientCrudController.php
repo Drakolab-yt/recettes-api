@@ -19,13 +19,13 @@ class IngredientCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
-            TextField::new('name'),
-            TextEditorField::new('description'),
-            BooleanField::new('vegan'),
-            BooleanField::new('vegetarian'),
-            BooleanField::new('dairyFree'),
-            BooleanField::new('glutenFree'),
+            IdField::new(propertyName: 'id')->hideOnForm(),
+            TextField::new(propertyName: 'name'),
+            TextEditorField::new(propertyName: 'description'),
+            BooleanField::new(propertyName: 'vegan'),
+            BooleanField::new(propertyName: 'vegetarian'),
+            BooleanField::new(propertyName: 'dairyFree'),
+            BooleanField::new(propertyName: 'glutenFree'),
         ];
     }
 }

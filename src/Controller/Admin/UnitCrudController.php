@@ -17,9 +17,9 @@ class UnitCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
-            TextField::new('singular'),
-            TextField::new('plural'),
+            IdField::new(propertyName: 'id')->hideOnForm(),
+            TextField::new(propertyName: 'singular'),
+            TextField::new(propertyName: 'plural'),
         ];
     }
 }
