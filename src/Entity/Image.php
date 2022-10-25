@@ -20,6 +20,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     itemOperations: ['get', 'delete'],
     normalizationContext: ['groups' => ['get']]
 )]
+#[Vich\Uploadable]
 class Image
 {
     use HasIdTrait;
@@ -114,5 +115,10 @@ class Image
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getPath();
     }
 }

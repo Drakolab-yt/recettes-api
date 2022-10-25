@@ -114,4 +114,9 @@ class RecipeHasIngredient
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->getRecipe().' - '.$this->getIngredient();
+    }
 }
