@@ -11,3 +11,4 @@ vich_uploader:
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             directory_namer:
                 service: App\Namer\ImageDirectoryNamer
+            inject_on_load: true

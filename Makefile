@@ -70,6 +70,16 @@ db.create:
 fixtures: ## Charger les fixtures (Attention, vide la BdD !)
 	$(EXEC) $(CONSOLE) doctrine:fixtures:load -n
 
+# ========================= #
+# Génération de formulaires #
+# ========================= #
+
+form: ## Crée un formulaire Symfony
+	$(EXEC) $(CONSOLE) make:form
+
+admin.crud: ## Crée un CRUD pour l'admin (EasyAdmin)
+	$(EXEC) $(CONSOLE) make:admin:crud
+
 # ============= #
 # Vérifications #
 # ============= #

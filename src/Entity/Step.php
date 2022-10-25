@@ -97,4 +97,9 @@ class Step
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->getRecipe().' n°'.$this->getPriority();
+    }
 }
