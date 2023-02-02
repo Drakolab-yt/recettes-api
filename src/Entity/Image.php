@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Entity\Traits\HasDescriptionTrait;
 use App\Entity\Traits\HasIdTrait;
 use App\Entity\Traits\HasPriorityTrait;
@@ -17,7 +21,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ApiResource(
-    itemOperations: ['get', 'delete'],
+    operations: [
+        new Get(),
+        new Delete(),
+        new GetCollection(),
+        new Post(),
+    ],
     normalizationContext: ['groups' => ['get']]
 )]
 #[Vich\Uploadable]

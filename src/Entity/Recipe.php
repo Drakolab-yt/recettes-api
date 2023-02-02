@@ -2,7 +2,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Entity\Traits\HasDescriptionTrait;
 use App\Entity\Traits\HasIdTrait;
 use App\Entity\Traits\HasNameTrait;
@@ -16,14 +21,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[ApiResource(
-    itemOperations: [
-        'get' => [
-            'normalization_context' => [
-                'groups' => ['get', 'Recipe:item:get'],
-            ],
-        ],
-        'delete',
-        'patch',
+    operations: [
+        new Get(normalizationContext: [
+            'groups' => ['get', 'Recipe:item:get'],
+        ]),
+        new Patch(),
+        new Delete(),
+        new GetCollection(),
+        new Post(),
     ],
     normalizationContext: ['groups' => ['get']]
 )]
