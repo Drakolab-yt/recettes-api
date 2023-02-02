@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Entity\Traits\HasIdTrait;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,14 +19,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
-    collectionOperations: ['get'],
-    itemOperations: [
-        'get' => [
-            'normalization_context' => [
-                'groups' => ['get', 'User:item:get'],
-            ],
-        ],
-        'patch',
+    operations: [
+        new Get(normalizationContext: [
+            'groups' => ['get', 'User:item:get'],
+        ]),
+        new Patch(),
+        new GetCollection(),
     ],
     normalizationContext: ['groups' => ['get']]
 )]
