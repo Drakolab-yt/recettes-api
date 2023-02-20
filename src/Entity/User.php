@@ -27,7 +27,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Patch(),
         new GetCollection(),
     ],
-    normalizationContext: ['groups' => ['get']]
+    normalizationContext: ['groups' => ['get']],
+    security: "is_granted('ROLE_ADMIN')"
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUserInterface
 {
