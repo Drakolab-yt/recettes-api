@@ -14,14 +14,15 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+// /recipe/1/sources/4
 #[ORM\Entity(repositoryClass: RecipeHasSourceRepository::class)]
 #[ApiResource(
     operations: [
         new Get(),
-        new Patch(),
-        new Delete(),
+        new Patch(security: "is_granted('ROLE_ADMIN') or object.getRecipe().getUser() == user"),
+        new Delete(security: "is_granted('ROLE_ADMIN') or object.getRecipe().getUser() == user"),
         new GetCollection(),
-        new Post(),
+        new Post(security: "is_granted('ROLE_ADMIN') or object.getRecipe().getUser() == user"),
     ],
     normalizationContext: ['groups' => ['get']]
 )]

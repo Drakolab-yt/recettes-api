@@ -23,9 +23,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ApiResource(
     operations: [
         new Get(),
-        new Delete(),
+        new Delete(security: "is_granted('ROLE_ADMIN') or object.isUserAllowedToEdit(user)"),
         new GetCollection(),
-        new Post(),
+        new Post(security: "is_granted('ROLE_ADMIN') or object.isUserAllowedToEdit(user)"),
     ],
     normalizationContext: ['groups' => ['get']]
 )]
@@ -60,7 +60,7 @@ class Image
         return $this->path;
     }
 
-    public function setPath(string $path): self
+    public function setPath(?string $path): self
     {
         $this->path = $path;
 
@@ -72,7 +72,7 @@ class Image
         return $this->size;
     }
 
-    public function setSize(int $size): self
+    public function setSize(?int $size): self
     {
         $this->size = $size;
 
@@ -124,6 +124,17 @@ class Image
         }
 
         return $this;
+    }
+
+    public function isUserAllowedToEdit(User $user): bool
+    {
+        if ($this->getRecipe()) {
+            return $this->getRecipe()->getUser()->getId() === $user->getId();
+        }
+        if ($this->getStep()) {
+            return $this->getStep()->getRecipe()->getUser()->getId() === $user->getId();
+        }
+        return false;
     }
 
     public function __toString(): string

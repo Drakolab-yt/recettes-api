@@ -21,14 +21,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(normalizationContext: [
-            'groups' => ['get', 'User:item:get'],
-        ]),
-        new Patch(),
-        new GetCollection(),
+        new Get(
+            normalizationContext: [
+                'groups' => ['get', 'User:item:get'],
+            ],
+            security: "is_granted('ROLE_ADMIN') or object == user"
+        ),
+        new Patch(security: "is_granted('ROLE_ADMIN') or object == user"),
+        new GetCollection(security: "is_granted('ROLE_ADMIN')"),
     ],
     normalizationContext: ['groups' => ['get']],
-    security: "is_granted('ROLE_ADMIN')"
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUserInterface
 {
