@@ -22,10 +22,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new Get(),
-        new Patch(),
-        new Delete(),
+        new Patch(security: "is_granted('ROLE_ADMIN') or object.getRecipe().getUser() == user"),
+        new Delete(security: "is_granted('ROLE_ADMIN') or object.getRecipe().getUser() == user"),
         new GetCollection(),
-        new Post(),
+        new Post(security: "is_granted('ROLE_ADMIN') or object.getRecipe().getUser() == user"),
     ],
     normalizationContext: ['groups' => ['get']]
 )]

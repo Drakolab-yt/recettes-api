@@ -25,10 +25,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(normalizationContext: [
             'groups' => ['get', 'Recipe:item:get'],
         ]),
-        new Patch(),
-        new Delete(),
+        new Patch(security: "is_granted('ROLE_ADMIN') or object.getUser() == user"),
+        new Delete(security: "is_granted('ROLE_ADMIN') or object.getUser() == user"),
         new GetCollection(),
-        new Post(),
+        new Post(security: "is_granted('ROLE_USER')"),
     ],
     normalizationContext: ['groups' => ['get']]
 )]
@@ -74,7 +74,7 @@ class Recipe
     /**
      * @var Collection<int, Image>
      */
-    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Image::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Groups(['get'])]
     private Collection $images;
 

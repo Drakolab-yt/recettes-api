@@ -27,7 +27,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(),
         new Post(),
     ],
-    normalizationContext: ['groups' => ['get']]
+    normalizationContext: ['groups' => ['get']],
+    security: "is_granted('ROLE_USER')"
 )]
 class Ingredient
 {

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -66,6 +67,12 @@ class SecurityController extends AbstractController
     #[Route(path: '/deconnexion', name: 'security_logout')]
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    #[Route(path: '/api/login', name: 'security_api_login')]
+    public function apiLogin(): Response
+    {
+        throw new LogicException('This method can be blank - it will be intercepted by the longin key on your firewall.');
     }
 }
