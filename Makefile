@@ -94,6 +94,12 @@ csfix: ## Correction (automatique) de la qualité du code
 	$(EXEC) composer fix
 
 # ============= #
+# Déploiement   #
+# ============= #
+deploy:
+	$(EXEC) vendor/bin/dep deploy
+
+# ============= #
 # Documentation #
 # ============= #
 
