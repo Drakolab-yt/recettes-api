@@ -1,0 +1,23 @@
+import:
+  - recipe/symfony.php
+
+config:
+  repository: 'git@github.com:Drakolab-yt/recettes-api.git'
+  ssh_multiplexing: false
+
+hosts:
+  51.178.42.85:
+    remote_user: debian
+    deploy_path: '/home/debian/deploy.drakolab.fr'
+
+tasks:
+  deploy:update:
+    - cd: '{{ release_path }}'
+    - run: make update migrate
+  deploy:
+    - deploy:prepare
+    - deploy:update
+    - deploy:publish
+
+after:
+  deploy:failed: deploy:unlock

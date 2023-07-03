@@ -1,4 +1,4 @@
-FIG=docker-compose
+FIG=docker compose
 
 # Dans la ligne de commande de notre machine, on vérifie si docker-compose est disponible
 HAS_DOCKER:=$(shell command -v $(FIG) 2> /dev/null)
@@ -25,13 +25,13 @@ CONSOLE=php bin/console
 # Manipulation des conteneurs #
 # =========================== #
 start: ## Démarrage des conteneurs et affiche les logs en temps réel
-	docker-compose up
+	$(FIG) up
 
 start.daemon: ## Démarrage des conteneurs et rend la ligne de commande
-	docker-compose up -d
+	$(FIG) up -d
 
 stop: ## Arrête les conteneurs
-	docker-compose down
+	$(FIG) down
 
 restart: stop start.daemon ## Arrête et redémarre les conteneurs
 
@@ -92,6 +92,12 @@ check: ## Vérification de la qualité et de la cohérence du code
 
 csfix: ## Correction (automatique) de la qualité du code
 	$(EXEC) composer fix
+
+# ============= #
+# Déploiement   #
+# ============= #
+deploy:
+	$(EXEC) vendor/bin/dep deploy
 
 # ============= #
 # Documentation #
